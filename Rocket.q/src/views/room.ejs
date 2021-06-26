@@ -22,11 +22,11 @@
                     ><img src="/images/logo.svg" alt="Logo Rocket.q"
                 /></a>
                 <div class="buttons">
-                    <div class="button outlined" id="room-id" data-id="323243">
-                        #323243
+                    <div class="button outlined" id="room-id" data-id="<%=roomId%> ">
+                        #<%=roomId%>
                         <img src="/images/copy.svg" alt="Copy symbol" />
                     </div>
-                    <a href="./create-pass.html" class="button">
+                    <a href="/create-pass" class="button">
                         <img
                             src="/images/users-white.svg"
                             alt="Users symbol white"
@@ -38,7 +38,7 @@
             <main>
                 <section id="question-form">
                     <h2>Faça sua pergunta</h2>
-                    <form action="">
+                    <form action="/question/create/<%=roomId%> " method="POST">
                         <label for="question" class="sr-only"
                             >O que você quer perguntar?</label
                         >
@@ -59,121 +59,72 @@
                 <section id="questions">
                     <h2 class="sr-only">Perguntas da comunidade</h2>
                     <div class="questions">
-                        <div class="question-wrapper">
-                            <div class="question-content">
-                                <div class="user">
-                                    <img
-                                        src="/images/single-user.svg"
-                                        alt="Single user symbol"
-                                    />
-                                </div>
-                                <div class="question">
-                                    <p>
-                                        Qual a diferença entre const, let e var
-                                        no JS?
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <a class="check" href="#" data-id="2"
-                                    ><img
-                                        src="/images/check.svg"
-                                        alt="Check mark"
-                                    />Marcar como lida</a
-                                >
-                                <a class="delete" href="#" data-id="2"
-                                    ><img
-                                        src="/images/trash.svg"
-                                        alt="Trash can symbol"
-                                    />Excluir</a
-                                >
-                            </div>
-                        </div>
 
-                        <div class="question-wrapper">
-                            <div class="question-content">
-                                <div class="user">
-                                    <img
-                                        src="/images/single-user.svg"
-                                        alt="Single user symbol"
-                                    />
-                                </div>
-                                <div class="question">
-                                    <p>O que é TypeScript?</p>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <a class="check" href="#" data-id="3"
-                                    ><img
-                                        src="/images/check.svg"
-                                        alt="Check mark"
-                                    />Marcar como lida</a
-                                >
-                                <a class="delete" href="#" data-id="3"
-                                    ><img
-                                        src="/images/trash.svg"
-                                        alt="Trash can symbol"
-                                    />Excluir</a
-                                >
-                            </div>
-                        </div>
+                        <% if (areThereNoQuestions) { %>
+                         <%- include('parts/no-questions') %> 
+                        <% } %>
 
-                        <div class="question-wrapper">
-                            <div class="question-content">
-                                <div class="user">
-                                    <img
-                                        src="/images/single-user.svg"
-                                        alt="Single user symbol"
-                                    />
+                        <% questions.forEach(question => { %>
+                            
+                            <div class="question-wrapper">
+                                <div class="question-content">
+                                    <div class="user">
+                                        <img
+                                            src="/images/single-user.svg"
+                                            alt="Single user symbol"
+                                        />
+                                    </div>
+                                    <div class="question">
+                                        <p>
+                                            <%= question.content %>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="question">
-                                    <p>O que é Script?</p>
+                                <div class="actions">
+                                    <a class="check" href="#" data-id="<%= question.id %>"
+                                        ><img
+                                            src="/images/check.svg"
+                                            alt="Check mark"
+                                        />Marcar como lida</a
+                                    >
+                                    <a class="delete" href="#" data-id="<%= question.id %>"
+                                        ><img
+                                            src="/images/trash.svg"
+                                            alt="Trash can symbol"
+                                        />Excluir</a
+                                    >
                                 </div>
                             </div>
-                            <div class="actions">
-                                <a class="check" href="#" data-id="4"
-                                    ><img
-                                        src="/images/check.svg"
-                                        alt="Check mark"
-                                    />Marcar como lida</a
-                                >
-                                <a class="delete" href="#" data-id="4"
-                                    ><img
-                                        src="/images/trash.svg"
-                                        alt="Trash can symbol"
-                                    />Excluir</a
-                                >
-                            </div>
-                        </div>
 
-                        <div class="question-wrapper read">
-                            <div class="question-content">
-                                <div class="user">
-                                    <img
-                                        src="/images/single-user.svg"
-                                        alt="Single user symbol"
-                                    />
+                        <% }); %>
+                        
+                        <% readQuestions.forEach(readQuestion => { %>
+
+                            <div class="question-wrapper read">
+                                <div class="question-content">
+                                    <div class="user">
+                                        <img
+                                            src="/images/single-user.svg"
+                                            alt="Single user symbol"
+                                        />
+                                    </div>
+                                    <div class="question">
+                                        <p>
+                                           <%= readQuestion.content %>  
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="question">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipisicing elit. Non harum laborum
-                                        porro soluta necessitatibus! Dolore
-                                        dolorum ducimus consequuntur explicabo
-                                        eum eaque sequi non nihil eius nam, amet
-                                        ea nulla expedita.
-                                    </p>
+                                <div class="actions">
+                                    <a class="delete" href="#" data-id="<%= readQuestion.id %> "
+                                        ><img
+                                            src="/images/trash.svg"
+                                            alt="Trash can symbol"
+                                        />Excluir</a
+                                    >
                                 </div>
                             </div>
-                            <div class="actions">
-                                <a class="delete" href="#" data-id="1"
-                                    ><img
-                                        src="/images/trash.svg"
-                                        alt="Trash can symbol"
-                                    />Excluir</a
-                                >
-                            </div>
-                        </div>
+                       <% }); %> 
+
                     </div>
                 </section>
             </main>
